@@ -1,0 +1,4 @@
+sampling:
+  # every minute
+  cron: 0 * * * * ?
+  frequency: 60000
