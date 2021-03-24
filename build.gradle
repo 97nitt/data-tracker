@@ -10,6 +10,7 @@ sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
+    maven { url "https://packages.confluent.io/maven" }
 }
 
 dependencies {
@@ -18,8 +19,12 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
 
     // compile dependencies
+    implementation 'org.apache.kafka:kafka-clients:2.7.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // runtime dependencies
+    runtime 'io.confluent:kafka-json-serializer:6.1.0'
 
     // test dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
