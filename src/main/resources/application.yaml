@@ -1,3 +1,12 @@
+spring:
+  application:
+    name: data-tracker
+
+sampling:
+  # every minute
+  cron: 0 * * * * ?
+  frequency: 6000000
+
 kafka:
   producer:
     topic: samples
@@ -6,7 +15,9 @@ kafka:
       key.serializer: org.apache.kafka.common.serialization.StringSerializer
       value.serializer: io.confluent.kafka.serializers.KafkaJsonSerializer
 
-sampling:
-  # every minute
-  cron: 0 * * * * ?
-  frequency: 60000
+  streams:
+    input: ${kafka.producer.topic}
+    output: statistics
+    properties:
+      application.id: ${spring.application.name}
+      bootstrap.servers: ${kafka.producer.properties.bootstrap.servers}

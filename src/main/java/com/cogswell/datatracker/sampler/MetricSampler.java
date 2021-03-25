@@ -101,7 +101,7 @@ public class MetricSampler {
     sample.setVolume(summary.getVolume());
     sample.setVolumeQuote(summary.getVolumeQuote());
 
-    return new ProducerRecord<>(topic, sample.getInstrument(), sample);
+    return new ProducerRecord<>(topic, result.getKey(), sample);
   }
 
   private void publish(ProducerRecord<String, Sample> record) {
