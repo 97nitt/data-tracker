@@ -61,12 +61,16 @@ public class MetricSampler {
   /**
    * Poll for metric samples and write them to Kafka.
    */
-  @Scheduled(fixedDelayString = "${sampling.frequency}")
+  @Scheduled(cron = "${sampling.cron}")
   public void sample() {
     logger.debug("Beginning metric sampling");
 
     MarketSummaries summaries = cryptowatch.getMarketSummaries();
-    logger.debug("Retrieved {} market summaries", summaries.getResult().size());
+
+    // TODO: alert and/or backoff if Cryptowatch API credits are low
+    logger.info("Retrieved {} market summaries, Cryptowatch credits remaining: {}",
+        summaries.getResult().size(),
+        summaries.getAllowance().getRemaining());
 
     publishSamples(summaries);
 

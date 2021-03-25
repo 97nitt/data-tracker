@@ -8,6 +8,8 @@ services:
 
   kafka:
     container_name: kafka
+    depends_on:
+      - zookeeper
     image: confluentinc/cp-kafka:6.1.0
     environment:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
@@ -18,3 +20,14 @@ services:
       - KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE=false
     ports:
       - 9092:9092
+
+  create-topics:
+    container_name: create-topics
+    depends_on:
+      - kafka
+    image: confluentinc/cp-kafka:6.1.0
+    entrypoint: >
+      sh -c "sleep 10
+      && kafka-topics --bootstrap-server kafka:29092 --create --topic samples --partitions 3
+      && kafka-topics --bootstrap-server kafka:29092 --create --topic statistics --partitions 3
+      "
