@@ -21,6 +21,17 @@ services:
     ports:
       - 9092:9092
 
+  control-center:
+    container_name: control-center
+    depends_on:
+      - kafka
+    image: confluentinc/cp-enterprise-control-center:6.1.0
+    environment:
+      - CONTROL_CENTER_BOOTSTRAP_SERVERS=kafka:29092
+      - CONTROL_CENTER_REPLICATION_FACTOR=1
+    ports:
+      - 9021:9021
+
   create-topics:
     container_name: create-topics
     depends_on:
